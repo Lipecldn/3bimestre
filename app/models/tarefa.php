@@ -1,14 +1,46 @@
 <?php
 
-require_once __DIR__ .'/../config/database.php';
+require_once __DIR__ . '/../config/database.php';
 
-class Tarefas{
+class Tarefas
+{
     private $conn;
 
-    public function __construct(){
+    public function __construct()
+    {
         $db = new Database();
         $this->conn = $db->conectar();
     }
-}
 
+    public function criar($descricao)
+    {
+        $descricao = $this->conn->real_escape_string($descricao);
+        $sql = "INSERT INTO tarefas (descricao) VALUES ('$descricao')";
+
+        return $this->conn->query($sql);
+    }
+
+    public function excluir($id)
+    {
+        $id = intval($id);
+        $sql = "DELETE FROM tarefas WHERE id= $id";
+        return $this->conn->query($sql);
+
+    }
+
+    public function listar()
+    {
+        $tarefas = [];
+        $sql = "SELECT * FROM tarefas ORDER BY data_criacao DESC";
+
+        $resultado = $this->conn->query($sql);
+        if ($resultado->num_rows > 0) {
+            while ($rowados = $resultado->fetch_assoc()) {
+                $tarefas[] = $rowados;
+            }
+
+            return $tarefas;
+        }
+    }
+}
 ?>
