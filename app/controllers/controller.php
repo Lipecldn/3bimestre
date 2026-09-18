@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . "/../models/tarefas.php";
+require_once __DIR__ . "/../models/tarefa.php";
 
 class TarefaController
 {
@@ -32,7 +32,7 @@ class TarefaController
     }
 
     public function index(){
-        $tarefas = $this->tarefaModel->tarefas();
+        $tarefas = $this->tarefaModel->listar();
         include __DIR__ .'/../views/listar.php';
     }
 }
